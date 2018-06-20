@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project ver="10" name="checkFileHash" libEmbed="true" icon="res\exeicon.ico" ui="win" output="checkFileHash.exe" CompanyName="bituplink" FileDescription="文件哈希校验" LegalCopyright="Copyright (C) bituplink 2018" ProductName="checkFileHash" InternalName="checkFileHash" FileVersion="0.0.0.17" ProductVersion="0.0.0.17" publishDir="/Publish/" dstrip="false">
+	<file name="main.aardio" path="main.aardio" comment="main.aardio"/>
+	<folder name="资源文件" path="res" embed="true">
+		<file name="donate.png" path="res\donate.png" comment="res\donate.png"/>
+		<file name="exeicon.ico" path="res\exeicon.ico" comment="res\exeicon.ico"/>
+		<file name="info.png" path="res\info.png" comment="res\info.png"/>
+	</folder>
+</project>

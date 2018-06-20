@@ -1,0 +1,140 @@
+import win.ui;
+import win.ui.menu;
+import fsys.dlg;
+import fsys.file;
+import win.clip;
+import win.ui.tooltip; 
+import process;
+import win.ui.atom;
+import crypt;
+/*DSG{{*/
+mainForm = win.form(text="文件哈希校验 v0.6   by bituplink.com";right=479;bottom=228;acceptfiles=1;border="dialog frame";max=false)
+mainForm.add(
+btnAddFile={cls="button";text="添加文件";left=0;top=3;right=104;bottom=36;z=2};
+btnCopyResult={cls="button";text="复制结果";left=103;top=3;right=207;bottom=36;z=3};
+btnSaveResult={cls="button";text="保存结果";left=206;top=3;right=310;bottom=36;flat=1;z=4};
+checkboxMd5={cls="checkbox";text="校验MD5值";left=377;top=129;right=466;bottom=148;checked=1;z=6};
+checkboxSha1={cls="checkbox";text="校验SHA-1值";left=377;top=159;right=471;bottom=178;checked=1;z=7};
+checkboxShowName={cls="checkbox";text="显示文件名";left=377;top=70;right=462;bottom=85;checked=1;z=8};
+checkboxShowSize={cls="checkbox";text="显示文件大小";left=377;top=99;right=469;bottom=117;checked=1;z=5};
+editShowZone={cls="edit";left=2;top=40;right=364;bottom=213;bgcolor=16777215;edge=1;multiline=1;readonly=1;z=1};
+plusDonate={cls="plus";left=390;top=11;right=418;bottom=39;foreRepeat="center";foreground="\res\donate.png";notify=1;repeat="center";z=9};
+plusHelpInfo={cls="plus";left=430;top=10;right=462;bottom=39;foreRepeat="center";foreground="\res\info.png";notify=1;repeat="center";z=10}
+)
+/*}}*/
+
+// 单实例运行功能
+var atom,hwndConflict = mainForm.atom("C90B636F-54A5-4DC2-98A7-62FF5276F411");   
+if(!atom){  
+    /*为窗口设置原子值可以避免一个程序重复运行多个实例*/  
+    win.quitMessage();//程序退出  
+    return;  
+};
+
+// 增加用户设置项配置能力
+import config;
+mainForm.bindConfig( config.mainForm,{
+    checkboxMd5 = "checked";
+    checkboxSha1 = "checked";
+    checkboxShowName = "checked";
+    checkboxShowSize = "checked";
+} );
+
+// 在窗口上创建tooltip对象, mainForm是界面主窗口的名称，可以改变，但是需要保持一致
+var toolTipObj = win.ui.tooltip(mainForm);
+
+// 给控件添加悬停提示, btnAddFile是之前创建的按键控件的名称， 0x10/*_TTF_SUBCLASS*/参数表示默认提示
+toolTipObj.addTool(mainForm.btnAddFile, "点击打开选择文件对话框，选择需要校验的文件", 0x10/*_TTF_SUBCLASS*/ );
+toolTipObj.addTool(mainForm.btnCopyResult, "拷贝校验结果到剪切板", 0x10/*_TTF_SUBCLASS*/ );
+toolTipObj.addTool(mainForm.btnSaveResult, "将校验结果另存到指定位置和名称的文件", 0x10/*_TTF_SUBCLASS*/ );
+
+
+// 拖放会触发onDropFiles事件
+mainForm.onDropFiles = function(files){
+	// 软件只接受单文件的校验，不处理文件列表，只取一个文件
+	getAndCheckFile(files[1]);
+}
+
+mainForm.btnAddFile.oncommand = function(id,event){
+	var fileAddedInfo = fsys.dlg.open("所有文件|*.*|");
+	
+    getAndCheckFile(fileAddedInfo);	
+}
+
+mainForm.btnCopyResult.oncommand = function(id,event){
+	win.clip.write(mainForm.editShowZone.text)
+}
+
+mainForm.btnSaveResult.oncommand = function(id,event){
+
+    // 如果没有内容也不保存到文件,通过获取内容的长度进行判断
+	if(!#mainForm.editShowZone.text){
+		mainForm.msgbox("还没有哈希校验结果无法保存，请先进行校验！")
+		return;
+	}
+	
+	fileOutputInfo = fsys.dlg.save("文本文件|*.txt|")
+    
+    // 如果取消选择，需要先判断文件路径是否存在,不存在则不执行下面的文件
+	if(fileOutputInfo == null){
+		return;
+	}
+	
+	string.save(fileOutputInfo, mainForm.editShowZone.text);
+}
+
+function getAndCheckFile(fileAdded){
+    
+    // 清空上一次的数值，确保一次只保留一份校验结果
+	mainForm.editShowZone.text = "";
+	
+	//如果取消选择，需要先判断文件路径是否存在,不存在则不执行下面的文件
+	if(fileAdded == null){
+		return;
+	}
+	
+	// 根据文件路径加载文件，获取文件名
+	var fileAddedName = io.splitpath(fileAdded).file;
+	
+	if(mainForm.checkboxShowName.checked){
+		mainForm.editShowZone.appendText("文件名   : " , fileAddedName, '\r\n');
+	}
+	
+	// 获取文件的大小，默认单位byte
+	fileAddedObj = fsys.file(fileAdded);
+	var fileAddedSize = fileAddedObj.size();
+	
+	if(mainForm.checkboxShowSize.checked){
+		mainForm.editShowZone.appendText("文件大小 : " , fileAddedSize, ' bytes\r\n');
+	}
+	
+	
+	// 生成文件MD5值
+	cryptObj = crypt();
+	fileAddMd5 = cryptObj.hashFile(fileAdded,true,0x8003/*_CALG_MD5*/)
+	
+	if(mainForm.checkboxMd5.checked){
+		mainForm.editShowZone.appendText("md5值    : " , fileAddMd5, '\r\n');
+	}
+	
+	
+	// 生成文件的sha-1值
+	fileAddSha1 = cryptObj.hashFile(fileAdded,true,0x8004/*_CALG_SHA1*/)
+	
+	if(mainForm.checkboxSha1.checked){
+		mainForm.editShowZone.appendText("sha-1值  : " , fileAddSha1, '\r\n');
+	}	
+}
+
+mainForm.plusDonate.oncommand = function(id,event){
+	process.execute("http://www.bituplink.com/donate");
+}
+
+mainForm.plusHelpInfo.oncommand = function(id,event){
+	process.execute("http://www.bituplink.com/checkfilehash");
+}
+
+mainForm.enableDpiScaling();
+mainForm.show();
+
+return win.loopMessage();
