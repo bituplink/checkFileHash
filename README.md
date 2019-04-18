@@ -1,7 +1,7 @@
 # checkFileHash
 这是一个对文件进行md5和sha-1校验的小工具,支持拖拽,复制信息到剪贴板,以及另存文件,勾选输出项等特性,代码基于aardio开发
 
-![snapshot](http://bituplink.com/assets/img/checkfilehash.png)
+![snapshot](http://www.bituplink.com/wp-content/uploads/checkfilehash.png)
 
 ##### 程序优点:  
 * win平台全支持,无需其他额外的组件支持
@@ -11,7 +11,7 @@
 
 ##### 获得exe执行程序
 * github releases下载: [releases](https://github.com/bituplink/checkFileHash/releases)
-* 访问官网下载: [官网](http://bituplink.com/checkfilehash)
+* 访问官网下载: [官网](http://www.bituplink.com/windows_checkfilehash.html)
 * 访问百度云盘下载: [百度网盘](https://pan.baidu.com/s/1D7O7qIEJrQPXaI-nUBlNaA) 密码: t7wh
 * 下载源码,并使用[aardio IDE](http://ide.update.aardio.com/releases/aardio.7z)加载项目文件(src目录下),运行并发布后,在publish目录下获得
 
@@ -33,7 +33,7 @@
 如果觉得程序对你有帮助或者想要支持我(毕竟写程序和调试代码也是很费时费力的,哎呦,我的酸脖子和鼠标手呀 ┬＿┬),可以小额赞助下
 
 方式一: 支付宝捐助
-* ![alipay](http://www.bituplink.com/assets/img/alipay.png)
+* ![alipay](http://www.bituplink.com/wp-content/uploads/alipay.png)
 
 方式二: 微信捐助
-* ![wxpay](http://www.bituplink.com/assets/img/wxpay.png)
+* ![wxpay](http://www.bituplink.com/wp-content/uploads/wxpay.png)
