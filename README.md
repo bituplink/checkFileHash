@@ -1,7 +1,7 @@
 # checkFileHash
 这是一个对文件进行md5和sha值校验的小工具,支持拖拽,复制信息到剪贴板,以及另存文件,勾选输出项等特性,代码基于aardio开发
 
-# 更新记录
+##### 更新记录
 * 2019.05.16 v0.7版本发布,修改了程序bug,增加了crc,sha384,sha512校验方式,增加了创建桌面快捷方式和置顶的功能
 
 ![snapshot](https://imgsrc.io/images/2019/05/16/checkFileHash_0.7.png)
