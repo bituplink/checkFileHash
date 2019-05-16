@@ -10,10 +10,10 @@ config  = ..fsys.config(
 
 //不需要序列化的配置名字前请添加下划线
 namespace config {
-	__appName = "应用程序名";
-	__appVersion = "1.0.0.01";
-	__appDescription = "这是一个测试程序";
-	__website = "http://www.aardio.com/";
+	__appName = "checkFileHash";
+	__appVersion = "0.7";
+	__appDescription = "文件哈希校验工具";
+	__website = "http://www.bituplink.com/";
 }
 
 /**intellisense(config)
