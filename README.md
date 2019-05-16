@@ -4,7 +4,7 @@
 ##### 更新记录
 * 2019.05.16 v0.7版本发布,修改了程序bug,增加了crc,sha384,sha512校验方式,增加了创建桌面快捷方式和置顶的功能
 
-![snapshot](https://imgsrc.io/images/2019/05/16/checkFileHash_0.7.png)
+![snapshot](https://imgsrc.io/images/2019/05/16/checkFileHash-v0.7.png)
 
 ##### 程序优点:  
 * win平台全支持,无需其他额外的组件支持
