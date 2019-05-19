@@ -190,17 +190,18 @@ function getAndCheckFile(fileAdded){
 	}
    	
    	var bufSize = 0xA00000
-   	do { 
-		var buffer,readSize = raw.buffer(bufSize);
-		readSize = fileAdded.readBuffer(buffer);
-		
-		md5.hashBuffer(buffer,readSize);
+	while ( 
+		var buffer,readSize = raw.buffer( bufSize );
+	    readSize = fileAdded.readBuffer(buffer); //读文件
+	    readSize
+	  ){
+	  	md5.hashBuffer(buffer,readSize);
 		sha1.hashBuffer(buffer,readSize);
 		crc32 = string.crc32(buffer,crc32,readSize);
 		sha256.hashBuffer(buffer,readSize);
 		sha384.hashBuffer(buffer,readSize);
 		sha512.hashBuffer(buffer,readSize);
-	} while ( readSize );
+	 }   				
 	
 	fileAdded.close();
 
